@@ -1,0 +1,10 @@
+bin
+obj
+.vs
+.toolstarget
+**/bin
+**/obj
+**/.toolstarget
+**/sqlite3
+**/.vs
+deploy
