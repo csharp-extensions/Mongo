@@ -349,7 +349,7 @@ namespace CSharpExtensions.OpenSource.Mongo
         public static T FromBson<T>(this string bson)
         {
             var dict = bson.FromJson<Dictionary<string, object>>();
-            if (dict.ContainsKey("_t") && dict["_t"] is not string)
+            if (dict?.ContainsKey("_t") == true && dict["_t"] is not string)
             {
                 var lst = dict["_t"].ToJson()!.FromJson<List<string>>();
                 dict["_t"] = lst.Last();
