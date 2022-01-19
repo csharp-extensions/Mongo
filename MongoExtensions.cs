@@ -240,7 +240,7 @@ namespace CSharpExtensions.OpenSource.Mongo
             string? json = "";
             if (value is BsonDocument)
             {
-                var jsonWriterSettings = new MongoDB.Bson.IO.JsonWriterSettings { OutputMode = MongoDB.Bson.IO.JsonOutputMode.CanonicalExtendedJson };
+                var jsonWriterSettings = new MongoDB.Bson.IO.JsonWriterSettings { OutputMode = MongoDB.Bson.IO.JsonOutputMode.Strict };
                 json = value.ToJson(jsonWriterSettings);
             }
             else
@@ -337,7 +337,7 @@ namespace CSharpExtensions.OpenSource.Mongo
             return value;
         }
 
-        public static string BsonToJson<T>(this T value, bool format = false, MongoDB.Bson.IO.JsonOutputMode jsonOutputMode = MongoDB.Bson.IO.JsonOutputMode.CanonicalExtendedJson)
+        public static string BsonToJson<T>(this T value, bool format = false, MongoDB.Bson.IO.JsonOutputMode jsonOutputMode = MongoDB.Bson.IO.JsonOutputMode.Strict)
             => MongoDB.Bson.BsonExtensionMethods.ToJson(value,
                 new MongoDB.Bson.IO.JsonWriterSettings
                 {
