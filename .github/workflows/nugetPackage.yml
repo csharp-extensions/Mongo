@@ -1,12 +1,5 @@
 name: Nuget Package
 on:
-  #   push:
-  #     branches:
-  #       - master
-  #   pull_request:
-  #     types: [closed]
-  #     branches:
-  #       - master
   release:
     types: [published]
 
@@ -21,22 +14,10 @@ jobs:
       - name: Setup .Net
         uses: actions/setup-dotnet@v1
 
-      - name: Build & Packing
-        env:
+      - name: Nuget Package And Upload
+        uses: csharp-extensions/publish-nuget@v1
+        with:
           releaseVersion: ${{ github.event.release.tag_name }}
           repoUrl: ${{ github.server_url }}/${{ github.repository }}
-        run: |
-          echo "pack version $releaseVersion"
-          dotnet restore
-          dotnet build -c Release 
-          dotnet pack /p:Version="$releaseVersion" /p:RepositoryUrl="$repoUrl" -c Release -o deploy
-
-      - name: Publish Nuget Package
-        env: 
           nugetToken: ${{secrets.NUGET_AUTH_TOKEN}}
           nugetSource: https://api.nuget.org/v3/index.json
-          # nugetToken: ${{secrets.GITHUB_TOKEN}}
-          # nugetSource: https://nuget.pkg.github.com/csharp-extensions/index.json
-        run: |
-          ls -l deploy
-          dotnet nuget push ./deploy/*.nupkg --skip-duplicate --no-symbols true -k $nugetToken --source $nugetSource
